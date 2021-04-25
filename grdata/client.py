@@ -2,7 +2,9 @@ import os
 from typing import Optional
 import requests
 
+from grdata.models.health.inspections import Inspection, InspectionList
 from grdata.models.health.vaccination import Vaccination, VaccinationList
+
 
 
 class Client:
@@ -38,6 +40,11 @@ class Client:
         ls  = [Vaccination(**area) for area in data]
         return VaccinationList(items=ls)
 
+    def efet_inspections(self) -> InspectionList:
+        data = self.get("efet_inspections")
+
+        ls  = [Inspection(**ins) for ins in data]
+        return InspectionList(items=ls)
         
 
         
