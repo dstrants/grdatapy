@@ -11,8 +11,15 @@ from grdata.models.health.vaccination import Vaccination, VaccinationList
 
 
 class Client:
+    """
+    The client of the data api.
+
+    Handles the connection to the api and parsing the data into
+    pydantic classes.
+    """
     def __init__(self, api_key: Optional[str] = None) -> None:
         if not (key := api_key):
+            # If there is not key pased it checks for the env var
             key = os.environ.get("GRDATA_API_KEY")
 
         if not key:
@@ -44,30 +51,35 @@ class Client:
         return VaccinationList(items=ls)
 
     def efet_inspections(self) -> InspectionList:
+        """Efet inspections data"""
         data = self.get("efet_inspections")
 
         ls  = [Inspection(**ins) for ins in data]
         return InspectionList(items=ls)
     
     def pharmacists(self) -> PharmasictsList:
+        """Number of pharmaciests per quarter in Greece."""
         data = self.get("minhealth_pharmacists")
         
         ls = [Pharmacists(**pharm) for pharm in data]
         return PharmasictsList(items=ls)
     
     def pharmacies(self) -> PharmasiesList:
+        """Number of pharmacies per quarter in Greece."""
         data = self.get("minhealth_pharmacies")
         
         ls = [Pharmacies(**pharm) for pharm in data]
         return PharmasiesList(items=ls)
 
     def doctors(self) -> DoctorsList:
+        """Number of doctors per quarter in Greece."""
         data = self.get("minhealth_doctors")
         
         ls = [Doctors(**doc) for doc in data]
         return DoctorsList(items=ls)
     
     def dentists(self) -> DentistsList:
+        """Number of dentists per quarter in Greece."""
         data = self.get("minhealth_dentists")
         
         ls = [Dentists(**dent) for dent in data]
