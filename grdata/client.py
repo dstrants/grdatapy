@@ -3,6 +3,7 @@ from typing import Optional
 import requests
 
 from grdata.models.health.inspections import Inspection, InspectionList
+from grdata.models.health.pharmacists import Pharmacists, PharmasictsList
 from grdata.models.health.vaccination import Vaccination, VaccinationList
 
 
@@ -45,6 +46,9 @@ class Client:
 
         ls  = [Inspection(**ins) for ins in data]
         return InspectionList(items=ls)
+    
+    def pharmacists(self) -> PharmasictsList:
+        data = self.get("minhealth_pharmacists")
         
-
-        
+        ls = [Pharmacists(**pharm) for pharm in data]
+        return PharmasictsList(items=ls)
