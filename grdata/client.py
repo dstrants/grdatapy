@@ -2,8 +2,10 @@ import os
 from typing import Optional
 import requests
 
+from grdata.models.health.dentists import Dentists, DentistsList
+from grdata.models.health.doctors import Doctors, DoctorsList
 from grdata.models.health.inspections import Inspection, InspectionList
-from grdata.models.health.pharmacists import Pharmacists, PharmasictsList
+from grdata.models.health.pharmacists import Pharmacists, Pharmacies, PharmasictsList, PharmasiesList
 from grdata.models.health.vaccination import Vaccination, VaccinationList
 
 
@@ -52,3 +54,21 @@ class Client:
         
         ls = [Pharmacists(**pharm) for pharm in data]
         return PharmasictsList(items=ls)
+    
+    def pharmacies(self) -> PharmasiesList:
+        data = self.get("minhealth_pharmacies")
+        
+        ls = [Pharmacies(**pharm) for pharm in data]
+        return PharmasiesList(items=ls)
+
+    def doctors(self) -> DoctorsList:
+        data = self.get("minhealth_doctors")
+        
+        ls = [Doctors(**doc) for doc in data]
+        return DoctorsList(items=ls)
+    
+    def dentists(self) -> DentistsList:
+        data = self.get("minhealth_dentists")
+        
+        ls = [Dentists(**dent) for dent in data]
+        return DentistsList(items=ls)
